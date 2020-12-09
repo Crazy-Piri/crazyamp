@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cd /tmp/crazyamp/
+php makesong.php /src
+cd song
+./build.sh 
+
+cd ..
+./build.sh
+
