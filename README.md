@@ -1,5 +1,7 @@
 # Crazy Piri Music Player
 
+Arkos music player for Amstrad CPC
+
 ## How to create your crazyamp disk ?
 
 ### Install docker
@@ -16,6 +18,8 @@ edit the json
 ```
 docker run --rm -v ${PWD}:/src/ -it redbug26/crazyamp cp_refresh
 ```
+
+Use the generated .dsk file in your prefered Amstrad emulator (or use it on true device!)
 
 #### Note for Windows: Replace `${PWD}` with `%cd%` in all commands
 
