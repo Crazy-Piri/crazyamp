@@ -9,7 +9,7 @@ LABEL Version="1.0" \
 ENV TERM="xterm" DEBIAN_FRONTEND="noninteractive" TZ="Europe/London"
 
 RUN apt-get update \
-	&& apt-get install -y git php
+	&& apt-get install -y git php php-xml php-zip
 
 COPY crazyamp /tmp/crazyamp
 

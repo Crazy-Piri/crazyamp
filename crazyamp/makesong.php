@@ -1,6 +1,36 @@
 <?php
 
 // var_dump($argv);
+//
+function getSongList($file) {
+
+$zip_obj = new ZipArchive;
+$zip_obj->open($file);
+
+for( $i = 0; $i < $zip_obj->numFiles; $i++ ){
+    $stat = $zip_obj->statIndex( $i );
+    $aks_file = "/tmp/" .  basename( $stat['name'] );
+}
+
+$zip_obj->extractTo('/tmp');
+
+$xml = simplexml_load_file($aks_file, null, null, 'aks', true);
+
+//print_r($xml);
+//
+$id = 1;
+
+$retour = array();
+
+foreach($xml->subsongs->subsong as $subsong) {
+	$retour[$id] = $subsong->title->__toString();
+        $id++;
+}
+
+
+return $retour;
+}
+
 
 function convertname($name)
 {
@@ -59,11 +89,15 @@ while (false !== ($readdir = readdir($handle))) {
                 }
             }
 
-            if (!$found) {
+	    if (!$found) {
+		    $rows = getSongList($path);
+		    foreach($rows as $key => $value) {
                 $song = array();
                 $song["path"] = $path;
-                $song["name"] = $path_parts["filename"];
-                $songs[] = $song;
+		$song["sub"] = sprintf("s%dp1", $key);
+                $song["name"] = $value; //  $path_parts["filename"];
+		$songs[] = $song;
+		}
             }
 
         }
@@ -85,7 +119,7 @@ fprintf($fp, "\n");
 
 foreach ($songs as $k => $song) {
     fprintf($fp, "echo \"Convert %s\"\n", $song["name"]);
-    fprintf($fp, "/tmp/tools/bin/SongToAkg -spskipcom --exportPlayerConfig --labelPrefix song%02d_ \"%s\" song%02d.asm\n", $k, $song["path"], $k);
+    fprintf($fp, "/tmp/tools/bin/SongToAkg -sp %s -spskipcom --exportPlayerConfig --labelPrefix song%02d_ \"%s\" song%02d.asm\n", $song["sub"], $k, $song["path"], $k);
 }
 
 fprintf($fp, "\n");
