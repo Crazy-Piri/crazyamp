@@ -117,16 +117,19 @@ $fp = fopen('song/build.sh', 'wt');
 fprintf($fp, "#!/bin/bash\n");
 fprintf($fp, "\n");
 
+fprintf($fp, "SONGTOAKG=/tmp/tools/bin/x86_64/SongToAkg\n");
+fprintf($fp, "DISARK=/tmp/tools/bin/x86_64/Disark\n");
+
 foreach ($songs as $k => $song) {
     fprintf($fp, "echo \"Convert %s\"\n", $song["name"]);
-    fprintf($fp, "/tmp/tools/bin/SongToAkg -sp %s -spskipcom --exportPlayerConfig --labelPrefix song%02d_ \"%s\" song%02d.asm\n", $song["sub"], $k, $song["path"], $k);
+    fprintf($fp, "\$SONGTOAKG -sp %s -spskipcom --exportPlayerConfig --labelPrefix song%02d_ \"%s\" song%02d.asm\n", $song["sub"], $k, $song["path"], $k);
 }
 
 fprintf($fp, "\n");
 fprintf($fp, "\n");
-fprintf($fp, "/tmp/tools/bin/rasm PlayerAndMusic.asm -o PlayerAndMusic -s -sl -sq\n");
+fprintf($fp, "rasm PlayerAndMusic.asm -o PlayerAndMusic -s -sl -sq\n");
 fprintf($fp, "\n");
-fprintf($fp, "/tmp/tools/bin/Disark PlayerAndMusic.bin Final.asm --symbolFile PlayerAndMusic.sym --sourceProfile sdcc\n");
+fprintf($fp, "\$DISARK PlayerAndMusic.bin Final.asm --symbolFile PlayerAndMusic.sym --sourceProfile sdcc\n");
 fprintf($fp, "\n");
 fprintf($fp, "mv Final.asm arkostracker2.s\n");
 fprintf($fp, "\n");

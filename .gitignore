@@ -1,1 +1,15 @@
 .DS_Store
+test
+obj
+crazyamp.bin
+crazyamp.dsk
+crazyamp.json
+crazyamp.ihx
+crazyamp.lk
+crazyamp.log
+crazyamp.map
+crazyamp.noi
+main.log
+arkostracker2.s
+PlayerAndMusic.asm
+crazyamp/song/build.sh
